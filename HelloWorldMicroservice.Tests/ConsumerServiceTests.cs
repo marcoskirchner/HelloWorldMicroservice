@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using HelloWorldMicroservice.Configs;
 using HelloWorldMicroservice.Display;
 using HelloWorldMicroservice.Domain;
 using HelloWorldMicroservice.Messaging;
@@ -21,7 +22,7 @@ namespace HelloWorldMicroservice.Tests
             var sentMessage = new HelloWorldMessage()
             {
                 MicroserviceInstanceId = "ConsumerTestInstanceId1",
-                RequestId = Guid.NewGuid(),
+                RequestId = Guid.NewGuid().ToString().Split('-')[0],
                 Timestamp = DateTimeOffset.Now,
             };
             var receiver = new Mock<IHelloWorldReceiver>();
@@ -50,7 +51,7 @@ namespace HelloWorldMicroservice.Tests
             var sentMessage = new HelloWorldMessage()
             {
                 MicroserviceInstanceId = "ConsumerTestInstanceId0",
-                RequestId = Guid.NewGuid(),
+                RequestId = Guid.NewGuid().ToString().Split('-')[0],
                 Timestamp = DateTimeOffset.Now,
             };
             var receiver = new Mock<IHelloWorldReceiver>();

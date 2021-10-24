@@ -1,4 +1,4 @@
-﻿namespace HelloWorldMicroservice
+﻿namespace HelloWorldMicroservice.Configs
 {
     public class ServiceConfig
     {

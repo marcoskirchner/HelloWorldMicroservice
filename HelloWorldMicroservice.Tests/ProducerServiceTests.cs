@@ -1,4 +1,5 @@
-﻿using HelloWorldMicroservice.Domain;
+﻿using HelloWorldMicroservice.Configs;
+using HelloWorldMicroservice.Domain;
 using HelloWorldMicroservice.Messaging;
 using HelloWorldMicroservice.Services;
 using HelloWorldMicroservice.Timers;
@@ -61,7 +62,7 @@ namespace HelloWorldMicroservice.Tests
             sender.Verify(s => s.SendHelloWorldAsync(
                 It.Is<HelloWorldMessage>(
                     m => m.MicroserviceInstanceId == "ProducerTestInstanceId"
-                    && m.RequestId != Guid.Empty
+                    && m.RequestId.Length == 8
                     && m.Timestamp == DateTimeOffset.MinValue),
                 CancellationToken.None));
         }

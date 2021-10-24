@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using HelloWorldMicroservice.Configs;
 using HelloWorldMicroservice.Display;
 using HelloWorldMicroservice.Messaging;
 using Microsoft.Extensions.Hosting;
@@ -50,6 +51,10 @@ namespace HelloWorldMicroservice.Services
                     if (message.MicroserviceInstanceId != _config.InstanceId)
                     {
                         _display.DisplayMessage(message);
+                    }
+                    else
+                    {
+                        _logger.LogTrace("Ignoring message from local instance");
                     }
                 }
                 catch (OperationCanceledException) { };

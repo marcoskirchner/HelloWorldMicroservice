@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using HelloWorldMicroservice.Configs;
 using HelloWorldMicroservice.Domain;
 using HelloWorldMicroservice.Messaging;
 using HelloWorldMicroservice.Timers;
@@ -31,11 +32,11 @@ namespace HelloWorldMicroservice.Services
 
         private async void TimerTick(object sender, TimerEventArgs e)
         {
-            _logger.LogTrace("ProducerService.TimerTick");
+            _logger.LogTrace("ProducerService.TimerTick {0}", _config.InstanceId);
             var message = new HelloWorldMessage()
             {
                 MicroserviceInstanceId = _config.InstanceId,
-                RequestId = Guid.NewGuid(),
+                RequestId = Guid.NewGuid().ToString().Split('-')[0],
                 Timestamp = e.EventTime,
             };
             await _sender.SendHelloWorldAsync(message, CancellationToken.None);

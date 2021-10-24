@@ -1,4 +1,5 @@
 ﻿using System;
+using HelloWorldMicroservice.Configs;
 using HelloWorldMicroservice.Display;
 using HelloWorldMicroservice.Messaging;
 using HelloWorldMicroservice.Services;
@@ -23,7 +24,7 @@ namespace HelloWorldMicroservice
                     var config = hostContext.Configuration;
                     var serviceConfig = new ServiceConfig()
                     {
-                        InstanceId = Environment.MachineName,
+                        InstanceId = $"{Environment.MachineName}-{Guid.NewGuid().ToString().Split('-')[0]}",
                     };
                     config.GetSection("ServiceConfig").Bind(serviceConfig);
                     services.AddSingleton(serviceConfig);
@@ -37,6 +38,11 @@ namespace HelloWorldMicroservice
                             services.AddSingleton<InMemoryLocalMessaging>();
                             services.AddSingleton<IHelloWorldReceiver>(p => p.GetService<InMemoryLocalMessaging>());
                             services.AddSingleton<IHelloWorldSender>(p => p.GetService<InMemoryLocalMessaging>());
+                            break;
+                        case "Kafka":
+                            services.Configure<KafkaConfig>(config.GetSection("KafkaConfig"));
+                            services.AddSingleton<IHelloWorldReceiver, KafkaHelloWorldReceiver>();
+                            services.AddSingleton<IHelloWorldSender, KafkaHelloWorldSender>();
                             break;
                     }
 
