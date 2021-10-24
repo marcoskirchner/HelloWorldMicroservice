@@ -1,25 +1,24 @@
-﻿using HelloWorldMicroservice.Domain;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using HelloWorldMicroservice.Domain;
 using HelloWorldMicroservice.Messaging;
 using HelloWorldMicroservice.Timers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HelloWorldMicroservice.Services
 {
     public class ProducerService : IHostedService
     {
         private readonly ILogger<ProducerService> _logger;
-        private readonly IOptions<ServiceConfig> _config;
+        private readonly ServiceConfig _config;
         private readonly ITimer _timer;
         private readonly IHelloWorldSender _sender;
 
         public ProducerService(
             ILogger<ProducerService> logger,
-            IOptions<ServiceConfig> config,
+            ServiceConfig config,
             ITimer timer,
             IHelloWorldSender sender)
         {
@@ -35,7 +34,7 @@ namespace HelloWorldMicroservice.Services
             _logger.LogTrace("ProducerService.TimerTick");
             var message = new HelloWorldMessage()
             {
-                MicroserviceInstanceId = _config.Value.InstanceId,
+                MicroserviceInstanceId = _config.InstanceId,
                 RequestId = Guid.NewGuid(),
                 Timestamp = e.EventTime,
             };

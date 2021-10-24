@@ -6,7 +6,6 @@ using HelloWorldMicroservice.Domain;
 using HelloWorldMicroservice.Messaging;
 using HelloWorldMicroservice.Services;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -18,8 +17,6 @@ namespace HelloWorldMicroservice.Tests
         [TestMethod]
         public async Task ConsumerDispatchesMessageFromAnotherInstance()
         {
-            var config = new Mock<IOptions<ServiceConfig>>(MockBehavior.Strict);
-            config.Setup(c => c.Value).Returns(new ServiceConfig() { InstanceId = "ConsumerTestInstanceId0" });
 
             var sentMessage = new HelloWorldMessage()
             {
@@ -39,7 +36,7 @@ namespace HelloWorldMicroservice.Tests
 
             var consumer = new ConsumerService(
                 Mock.Of<ILogger<ConsumerService>>(),
-                config.Object,
+                new ServiceConfig() { InstanceId = "ConsumerTestInstanceId0" },
                 receiver.Object,
                 display.Object);
             await consumer.StartAsync(cts.Token);
@@ -50,9 +47,6 @@ namespace HelloWorldMicroservice.Tests
         [TestMethod]
         public async Task ConsumerDoesNotDispatchMessageFromSameInstance()
         {
-            var config = new Mock<IOptions<ServiceConfig>>(MockBehavior.Strict);
-            config.Setup(c => c.Value).Returns(new ServiceConfig() { InstanceId = "ConsumerTestInstanceId0" });
-
             var sentMessage = new HelloWorldMessage()
             {
                 MicroserviceInstanceId = "ConsumerTestInstanceId0",
@@ -69,7 +63,7 @@ namespace HelloWorldMicroservice.Tests
 
             var consumer = new ConsumerService(
                 Mock.Of<ILogger<ConsumerService>>(),
-                config.Object,
+                new ServiceConfig() { InstanceId = "ConsumerTestInstanceId0" },
                 receiver.Object,
                 display.Object);
             await consumer.StartAsync(cts.Token);

@@ -22,7 +22,7 @@ namespace HelloWorldMicroservice.Tests
 
             var producer = new ProducerService(
                 Mock.Of<ILogger<ProducerService>>(),
-                Mock.Of<IOptions<ServiceConfig>>(),
+                Mock.Of<ServiceConfig>(),
                 timer.Object,
                 Mock.Of<IHelloWorldSender>());
             await producer.StartAsync(CancellationToken.None);
@@ -37,7 +37,7 @@ namespace HelloWorldMicroservice.Tests
 
             var producer = new ProducerService(
                 Mock.Of<ILogger<ProducerService>>(),
-                Mock.Of<IOptions<ServiceConfig>>(),
+                Mock.Of<ServiceConfig>(),
                 timer.Object,
                 Mock.Of<IHelloWorldSender>());
             await producer.StopAsync(CancellationToken.None);
@@ -48,15 +48,12 @@ namespace HelloWorldMicroservice.Tests
         [TestMethod]
         public void ProducerSendsMessageWhenTimerTicks()
         {
-
-            var config = new Mock<IOptions<ServiceConfig>>(MockBehavior.Strict);
-            config.Setup(c => c.Value).Returns(new ServiceConfig() { InstanceId = "ProducerTestInstanceId" });
             var timer = new Mock<ITimer>();
             var sender = new Mock<IHelloWorldSender>();
 
             var producer = new ProducerService(
                 Mock.Of<ILogger<ProducerService>>(),
-                config.Object,
+                new ServiceConfig() { InstanceId = "ProducerTestInstanceId" },
                 timer.Object,
                 sender.Object);
             timer.Raise(t => t.Tick += null, new TimerEventArgs(DateTimeOffset.MinValue));

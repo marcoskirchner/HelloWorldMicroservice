@@ -1,23 +1,23 @@
-﻿using HelloWorldMicroservice.Display;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using HelloWorldMicroservice.Display;
 using HelloWorldMicroservice.Messaging;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HelloWorldMicroservice.Services
 {
     public class ConsumerService : BackgroundService
     {
         private readonly ILogger<ConsumerService> _logger;
-        private readonly IOptions<ServiceConfig> _config;
+        private readonly ServiceConfig _config;
         private readonly IHelloWorldReceiver _receiver;
         private readonly IDisplay _display;
 
         public ConsumerService(
             ILogger<ConsumerService> logger,
-            IOptions<ServiceConfig> config,
+            ServiceConfig config,
             IHelloWorldReceiver receiver,
             IDisplay display)
         {
@@ -44,11 +44,15 @@ namespace HelloWorldMicroservice.Services
             _logger.LogTrace("ConsumerService.ExecuteAsync");
             while (!stoppingToken.IsCancellationRequested)
             {
-                var message = await _receiver.ReceiveHelloWorldAsync(stoppingToken);
-                if (message.MicroserviceInstanceId != _config.Value.InstanceId)
+                try
                 {
-                    _display.DisplayMessage(message);
+                    var message = await _receiver.ReceiveHelloWorldAsync(stoppingToken);
+                    if (message.MicroserviceInstanceId != _config.InstanceId)
+                    {
+                        _display.DisplayMessage(message);
+                    }
                 }
+                catch (OperationCanceledException) { };
             }
         }
     }

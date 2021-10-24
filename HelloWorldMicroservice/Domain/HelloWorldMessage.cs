@@ -4,8 +4,8 @@ namespace HelloWorldMicroservice.Domain
 {
     public class HelloWorldMessage
     {
-        public string MicroserviceInstanceId;
-        public Guid RequestId;
-        public DateTimeOffset Timestamp;
+        public string MicroserviceInstanceId { get; set; }
+        public Guid RequestId { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
     };
 }
