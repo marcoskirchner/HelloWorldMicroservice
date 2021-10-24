@@ -3,7 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldMicroservice", "HelloWorldMicroservice\HelloWorldMicroservice.csproj", "{76EBDB8A-F4F7-4F61-8571-617E61D6383B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldMicroservice.Tests", "HelloWorldMicroservice.Tests\HelloWorldMicroservice.Tests.csproj", "{AD18DD57-9726-42D2-96FA-9B916B09D286}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EBA3F97D-5A89-46A5-BF56-FA5AA3DBB548}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76EBDB8A-F4F7-4F61-8571-617E61D6383B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76EBDB8A-F4F7-4F61-8571-617E61D6383B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76EBDB8A-F4F7-4F61-8571-617E61D6383B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76EBDB8A-F4F7-4F61-8571-617E61D6383B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD18DD57-9726-42D2-96FA-9B916B09D286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD18DD57-9726-42D2-96FA-9B916B09D286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD18DD57-9726-42D2-96FA-9B916B09D286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD18DD57-9726-42D2-96FA-9B916B09D286}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
