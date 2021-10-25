@@ -44,6 +44,12 @@ namespace HelloWorldMicroservice
                             services.AddSingleton<IHelloWorldReceiver, KafkaHelloWorldReceiver>();
                             services.AddSingleton<IHelloWorldSender, KafkaHelloWorldSender>();
                             break;
+                        case "RabbitMq":
+                            services.Configure<RabbitMqConfig>(config.GetSection("RabbitMqConfig"));
+                            services.AddSingleton<IHelloWorldReceiver, RabbitMqHelloWorldReceiver>();
+                            services.AddSingleton<IHelloWorldSender, RabbitMqHelloWorldSender>();
+                            services.AddSingleton<MessageSerializer>();
+                            break;
                     }
 
                     services.AddHostedService<ProducerService>();
