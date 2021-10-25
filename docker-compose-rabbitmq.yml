@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+
+  helloworldmicroservice:
+    build:
+      context: .
+      dockerfile: HelloWorldMicroservice/Dockerfile
+    environment:
+      - ServiceConfig__MessagingImplementation=RabbitMq
+      - ServiceConfig__StartupDelayInterval=10000
+      - RabbitMqConfig__HostName=rabbitmq
+      - RabbitMqConfig__ExchangeName=HelloWorldMicroservice
+      - Logging__LogLevel__HelloWorldMicroservice=Information
+    deploy:
+      replicas: 3
+    depends_on:
+      - rabbitmq
