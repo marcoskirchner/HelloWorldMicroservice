@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  helloworldmicroservice:
+    image: ${DOCKER_REGISTRY-}helloworldmicroservice
+    build:
+      context: .
+      dockerfile: HelloWorldMicroservice/Dockerfile
+    environment:
+      - ServiceConfig__MessagingImplementation=InMemoryLocal
