@@ -29,6 +29,17 @@ namespace HelloWorldMicroservice
                     config.GetSection("ServiceConfig").Bind(serviceConfig);
                     services.AddSingleton(serviceConfig);
 
+                    if (serviceConfig.StartupDelayInterval > 0)
+                    {
+                        /*
+                         * Useful when waiting for dependencies (like Kafka or RabbitMQ) to start
+                         * before allowing the services to establish a connection.
+                         */
+                        Console.WriteLine("Delaying startup for {0}ms", serviceConfig.StartupDelayInterval);
+                        System.Threading.Thread.Sleep(serviceConfig.StartupDelayInterval);
+                        Console.WriteLine("Delaying startup completed");
+                    }
+
                     services.AddTransient<ITimer, Timer>();
                     services.AddTransient<IDisplay, ConsoleDisplay>();
 
